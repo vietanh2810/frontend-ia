@@ -47,12 +47,14 @@ export default {
 
 
 <template>
-  <div id="app" class="flex" style="width: 100vw !important; height: 50vw !important; margin: 0 !important; padding: 0 !important;">
+  <div id="app" class="flex w-full h-full m-0 p-0" >
+    <!-- style="width: 100vw !important;height: 100% !important; margin: 0 !important; padding: 0 !important;"> -->
     <router-view />
   </div>
 </template>
 
 <style scoped>
+
 header {
   line-height: 1.5;
 }
