@@ -17,7 +17,7 @@
                                 <h2 class="card-title">User profile</h2>
                             </div>
                             <div class="overflow-auto max-h-60 ">
-                                <Form @submit="" :validation-schema="schema">
+                                <Form @submit="handlesub" :validation-schema="schema">
                                     <div class="form-group">
                                         <label for="username">Username</label>
                                         <Field name="username" type="text" class="form-control" v-model="userData.userName"/>
@@ -30,7 +30,6 @@
                                         <ErrorMessage name="email" class="error-feedback" />
                                     </div>
 
-                                    {{ getUserData }}
 
                                     <div class="form-group">
                                         <label for="tag">
@@ -171,6 +170,25 @@ export default {
         )
     },
     methods: {
+        handleSubmit(user) {
+            delete user.passwordConfirmation;
+
+            this.$store.dispatch("/users/profile", user).then(
+                () => {
+                    this.$router.push("/profile");
+                    console.log("User edited succesfully!")
+                },
+                (error) => {
+                    this.loading = false;
+                    this.message =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            )
+        },
         sanitizeTag(value) {
         return value.replace(/<[^>]*>?/gm, '').trim();
         },
