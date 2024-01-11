@@ -21,10 +21,10 @@
             <div id="messages" ref="chatMessages" class=" overflow-auto h-96">
                 <div v-for="message in chatMessages" :key="message.id">
                     <div v-if="message.role !== 'user'" class="chat chat-start">
-                        <div class="chat-bubble text-star chat-bubble-primary">{{ message.content }}</div>
+                        <div class="chat-bubble text-left chat-bubble-primary">{{ message.content }}</div>
                     </div>
                     <div v-if="message.role === 'user'" class="chat chat-end">
-                        <div class="chat-bubble text-start chat-bubble-success">{{ message.content }}</div>
+                        <div class="chat-bubble text-left chat-bubble-success">{{ message.content }}</div>
                     </div>
                 </div>
             </div>
@@ -47,23 +47,7 @@ export default {
         return {
             isOpen: false,
             newMessage: '',
-            chatMessages: [
-                {
-                    id: 1,
-                    role: 'assistant',
-                    content: 'Hello, how can I help you?'
-                },
-                {
-                    id: 2,
-                    role: 'user',
-                    content: 'I want to know how to make a pizza'
-                },
-                {
-                    id: 3,
-                    role: 'assistant',
-                    content: 'Here is a recipe for pizza'
-                }
-            ],
+            chatMessages: [],
             socket: null,
         };
     },
@@ -97,6 +81,21 @@ export default {
                 role,
                 content: message
             });
+            this.chatMessages.push({
+                id: Date.now() + 1,
+                role: 'assistant',
+                content: ''
+            });
+            localStorage.setItem('chatMessages', JSON.stringify(this.chatMessages));
+            this.$nextTick(() => {
+                const chatMessagesDiv = this.$refs.chatMessages;
+                if (chatMessagesDiv) {
+                    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+                }
+            });
+        },
+        concatMessage(message) {
+            this.chatMessages[this.chatMessages.length - 1].content += message;
             localStorage.setItem('chatMessages', JSON.stringify(this.chatMessages));
             this.$nextTick(() => {
                 const chatMessagesDiv = this.$refs.chatMessages;
@@ -109,7 +108,10 @@ export default {
     mounted() {
         this.socket = io.connect(API_URL);
         this.socket.on('message', (message) => {
-            this.displayMessage('assistant', message);
+            if (message !== '[DONE]') {
+                this.concatMessage(message);
+                console.log(message);
+            }
         });
         if (localStorage.getItem('chatMessages')) {
             this.chatMessages = JSON.parse(localStorage.getItem('chatMessages'));
