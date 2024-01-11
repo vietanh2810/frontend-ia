@@ -28,12 +28,8 @@ class AuthService {
         formData.append('userName', user.userName);
         formData.append('email', user.email);
         formData.append('password', user.password);
-        formData.append('contactInfo', user.contactInfo);
-        formData.append('companyName', user.companyName);
-        formData.append('websiteUrl', user.websiteUrl);
-        formData.append('kbis', user.kbis);
 
-        return axios.post(`${API_URL}/api/users/signup`, formData, {
+        return axios.post(`${API_URL}/users/signup`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
             },
