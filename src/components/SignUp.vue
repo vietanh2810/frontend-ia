@@ -1,57 +1,46 @@
 <template>
-    <div class="signup-form">
-        <h2>Sign Up</h2>
-        <Form @submit="handleSubmit" :validation-schema="schema">
-            <div class="form-group">
-                <label for="userName">Username:</label>
-                <Field name="userName" type="text" class="form-control" />
-                <ErrorMessage name="userName" class="error-feedback" />
-            </div>
+    <main class="flex justify-center w-4/5 h-full items-center bg-slate-400"
+                :style="{ backgroundImage: 'url(' + bgImageUrl + ')' }"
+                style="background-repeat: no-repeat; background-size: cover; background-position: center; height: 100%; width: 100%; opacity: 0.9;">
+        <div class="w-2/3 rounded-box">
+            <div>
+                <div class="card lg:card-side bg-base-100 shadow-xl" style="max-width: 850px; margin-left: 60px;">
+                    
+                    <div class="card-body">
+                        <div class="signup-form">
+                            <h2>Sign Up</h2>
+                            <Form @submit="handleSubmit" :validation-schema="schema">
+                                <div class="form-group">
+                                    <label for="userName">Username:</label>
+                                    <Field name="userName" type="text" class="form-control" />
+                                    <ErrorMessage name="userName" class="error-feedback" />
+                                </div>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <Field name="password" type="password" class="form-control" />
-                <ErrorMessage name="password" class="error-feedback" />
-            </div>
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <Field name="password" type="password" class="form-control" />
+                                    <ErrorMessage name="password" class="error-feedback" />
+                                </div>
 
-            <div class="form-group">
-                <label for="passwordConfirmation">Confirm Password:</label>
-                <Field name="passwordConfirmation" type="password" class="form-control" />
-                <ErrorMessage name="passwordConfirmation" class="error-feedback" />
-            </div>
+                                <div class="form-group">
+                                    <label for="passwordConfirmation">Confirm Password:</label>
+                                    <Field name="passwordConfirmation" type="password" class="form-control" />
+                                    <ErrorMessage name="passwordConfirmation" class="error-feedback" />
+                                </div>
 
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <Field name="email" type="email" class="form-control" />
-                <ErrorMessage name="email" class="error-feedback" />
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <Field name="email" type="email" class="form-control" />
+                                    <ErrorMessage name="email" class="error-feedback" />
+                                </div>
+                                <button type="submit">Sign Up</button>
+                            </Form>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="contactInfo">Contact Information:</label>
-                <Field name="contactInfo" type="text" class="form-control" />
-                <ErrorMessage name="contactInfo" class="error-feedback" />
-            </div>
-
-            <div class="form-group">
-                <label for="companyName">Company Name:</label>
-                <Field name="companyName" type="text" class="form-control" />
-                <ErrorMessage name="companyName" class="error-feedback" />
-            </div>
-
-            <div class="form-group">
-                <label for="kbis">KBIS (PDF file):</label>
-                <Field name="kbis" type="file" class="form-control" accept="application/pdf" />
-                <ErrorMessage name="kbis" class="error-feedback" />
-            </div>
-
-            <div class="form-group">
-                <label for="websiteUrl">Website URL:</label>
-                <Field name="websiteUrl" type="url" class="form-control" />
-                <ErrorMessage name="websiteUrl" class="error-feedback" />
-            </div>
-            <button type="submit">Sign Up</button>
-        </Form>
-    </div>
+        </div>
+    </main>
 </template>
 
 <script>
@@ -77,10 +66,6 @@ export default {
                 .oneOf([yup.ref("password"), null], "Passwords do not match")
                 .required("Password confirmation is required!"),
             email: yup.string().required("Email is required!").email("Invalid email format"),
-            contactInfo: yup.string().required("Contact Information is required!"),
-            companyName: yup.string().required("Company Name is required!"),
-            kbis: yup.mixed().required("KBIS (PDF file) is required!"),
-            websiteUrl: yup.string().url("Invalid URL format").required("Website URL is required!"),
         });
 
         return {
@@ -90,10 +75,6 @@ export default {
                 password: "",
                 // passwordConfirmation: "",
                 email: "",
-                contactInfo: "",
-                companyName: "",
-                kbis: null,
-                websiteUrl: "",
             },
         };
     },

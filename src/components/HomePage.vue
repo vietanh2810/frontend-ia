@@ -18,12 +18,14 @@
                 </div>
                 <div class="flex">
                     <input :disabled="isLoading" type="text" placeholder="Type here"
-                        class="input input-bordered input-secondary w-[416px] h-16" v-model="inputSearch"
+                        class="input input-bordered input-secondary w-[416px] h-16 text-white" v-model="inputSearch"
                         @keyup.enter="handleSubmitInput" />
-                    <!-- <span v-show="isLoading" class="loading loading-spinner text-error loading-lg"></span> -->
                     <div v-show="isLoading" class="rounded-full ml-4 overflow-hidden" style="width: 60px; height: 60px;">
                         <img src="../assets/images/remy.jpeg" class="rotate" width="60" height="60" />
                     </div>
+                                    
+                    <span v-show="isLoading" class="loading loading-spinner text-error loading-lg"></span>
+
                 </div>
             </div>
         </main>
@@ -72,6 +74,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
 .rotate {
     animation: rotation 2s infinite linear;
@@ -85,6 +88,10 @@ export default {
     to {
         transform: rotate(359deg);
     }
+}
+
+input[type='text'] {
+    color: white;
 }
 </style>
 

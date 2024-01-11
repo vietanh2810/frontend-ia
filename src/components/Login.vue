@@ -131,7 +131,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f0f0f0;
+    background-color: #303030;
     /* Add a background color for visibility */
 }
 
@@ -149,11 +149,17 @@ label {
     margin-bottom: 5px;
 }
 
-input {
-    margin-bottom: 10px;
-    padding: 5px;
+input[type="password"] {
+    display: block;
+    width: 100% !important;
+    padding: 8px 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="password"] {
+    color: black;
 }
 
 button {
