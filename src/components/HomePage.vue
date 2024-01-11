@@ -24,7 +24,7 @@
                 </div>
                 <div class="flex">
                     <input :disabled="isLoading" type="text" placeholder="Type here"
-                                    class="input input-bordered input-secondary w-[416px] h-16" v-model="inputSearch"
+                                    class="input input-bordered input-secondary w-[416px] h-16 text-white" v-model="inputSearch"
                                     @keyup.enter="handleSubmitInput" />
                     <span v-show="isLoading" class="loading loading-spinner text-error loading-lg"></span>
                 </div>
@@ -72,3 +72,8 @@ export default {
 }
 </script>
 
+<style>
+input[type='text'] {
+    color: white;
+}
+</style>
