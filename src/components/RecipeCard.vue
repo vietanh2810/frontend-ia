@@ -6,8 +6,7 @@
             </figure>
             <div class="card-body">
                 <div v-show=" recipe.recommended !== null" class="badge badge-outline" :class="recipe.recommended === 'Recommended' ? 'badge-secondary' : 'badge-primary'">{{ recipe.recommended }}</div>
-                <div class="flex w-full gap-4">
-                    <h2 class="card-title">{{ recipe.name }}</h2>
+                <div class="flex justify-between"> 
                     <div class="rating">
                         <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
                         <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
@@ -15,6 +14,10 @@
                         <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
                         <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
                     </div>
+                    <input type="radio" name="rating-3" class="mask mask-heart h-6 w-6 bg-red-400" v-model="recipe.isFavorite" />
+                </div>
+                <div class="flex w-full gap-4">
+                    <h2 class="card-title">{{ recipe.name }}</h2>
                 </div>
                 <div class="overflow-auto max-h-60 max-w-[517px]">
                     <p class="text-start">Description: {{ recipe.description }}</p>
@@ -24,6 +27,7 @@
                     <p class="text-start">Servings: {{ recipe.servings }}</p>
                     <p class="text-start">Category: {{ recipe.category }}</p>
                     <p v-show="pairings !== ''" class="text-start">Pairings: {{ pairings }}</p>
+                    <p v-show="calories !== ''" class="text-start">Calories: {{ calories }}</p>
                     <p class="text-start">Season: {{ recipe.season }}</p>
                     <div v-show="(typeof recipe.shoppingList !== 'undefined')" class="text-start">
                         Shopping List: 
@@ -39,7 +43,10 @@
                 </div>
                 <div class="card-actions justify-end">
                     <button v-show="pairings === ''" class="btn btn-primary" @click="getParing">Get recommended pairing</button>
-                    <span v-show="isLoading" class="loading loading-spinner text-error loading-lg"></span>
+                    <button v-show="calories === ''" class="btn btn-primary" @click="getCalorie">Get calorie of this dish</button>
+                    <div v-show="isLoading" class="rounded-full ml-4 overflow-hidden" style="width: 60px; height: 60px;">
+                        <img src="../assets/images/remy.jpeg" class="rotate" width="60" height="60" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,7 +70,8 @@ export default {
     data() {
         return {
             pairings: '',
-            isLoading: false
+            isLoading: false,
+            calories: ''
         };
     },
     computed: {
@@ -82,8 +90,26 @@ export default {
             }
             RecipesService.getPairings(req).then(
                 (response) => {
-                    console.log(response.data);
                     this.pairings = response.data.recommendation;
+                    this.isLoading = false;
+                },
+                (error) => {
+                    console.log(error);
+                    this.isLoading = false;
+                }
+            )
+        },
+        getCalorie() {
+            if (this.calories !== '') {
+                return;
+            }
+            this.isLoading = true;
+            const req = {
+                recipeId: this.recipe.id
+            }
+            RecipesService.getCalories(req).then(
+                (response) => {
+                    this.calories = response.data.calorie;
                     this.isLoading = false;
                 },
                 (error) => {
@@ -95,3 +121,19 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.rotate {
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
+</style>

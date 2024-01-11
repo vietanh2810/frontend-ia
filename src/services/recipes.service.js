@@ -32,6 +32,10 @@ class RecipesService {
         return axios.post(API_URL + '/recipes/pairings', data, { headers: authHeader() });
     }
 
+    getCalories(data) {
+        return axios.post(API_URL + '/recipes/calories', data, { headers: authHeader() });
+    }
+
     addToFav(data) {
         return axios.post(API_URL + '/recipes/favorites', data, { headers: authHeader() });
     }
