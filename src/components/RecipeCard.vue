@@ -1,10 +1,11 @@
 <template>
     <div>
-        <div class="card lg:card-side bg-base-100 shadow-xl" style="min-width: 1008px;">
-            <figure><img src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg" :alt="recipe.name" />
+        <div class="card lg:card-side bg-base-100 shadow-xl" style="max-width: 850px; margin-left: 60px;">
+            <figure>
+                <img :src="recipe.imageURL" :alt="recipe.imageURL" style="width: 400px; height: 400px;" />
             </figure>
             <div class="card-body">
-                <div v-show=" recipe.recommended !== null" class="badge badge-secondary badge-outline">{{ recipe.recommended }}</div>
+                <div v-show=" recipe.recommended !== null" class="badge badge-outline" :class="recipe.recommended === 'Recommended' ? 'badge-secondary' : 'badge-primary'">{{ recipe.recommended }}</div>
                 <div class="flex w-full gap-4">
                     <h2 class="card-title">{{ recipe.name }}</h2>
                     <div class="rating">
