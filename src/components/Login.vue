@@ -84,6 +84,7 @@ export default {
             this.$store.dispatch("auth/login", user).then(
                 () => {
                     this.$router.push("/homepage");
+                    localStorage.setItem('chatMessages', JSON.stringify([]));
                 },
                 (error) => {
                     this.loading = false;

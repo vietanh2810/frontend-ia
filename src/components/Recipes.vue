@@ -4,7 +4,9 @@
             <!-- Navbar content -->
             <NavBar />
         </nav>
-        <main class="flex justify-center w-full h-full items-center bg-slate-400">
+        <main class="flex justify-center w-4/5 h-full items-center bg-slate-400"
+                :style="{ backgroundImage: 'url(' + bgImageUrl + ')' }"
+                style="background-repeat: no-repeat; background-size: cover; background-position: center; height: 100%; width: 100%; opacity: 0.9;">
             <div class="w-2/3 carousel rounded-box">
                 <div v-for="(recipe, index) in recipesList" :key="index" :id="`slide` + recipe.id"
                     class="carousel-item relative w-full">
@@ -21,6 +23,7 @@
 import NavBar from './NavBar.vue'
 import RecipesService from '../services/recipes.service';
 import RecipeCard from './RecipeCard.vue';
+import bgImage from '../assets/images/bg3.jpeg';
 
 export default {
     name: 'Recipes',
@@ -73,7 +76,8 @@ export default {
     data() {
         return {
             isLoading: false,
-            recipesGet: []
+            recipesGet: [],
+            bgImageUrl: bgImage,
         };
     },
     mounted() {

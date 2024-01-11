@@ -1,18 +1,22 @@
 
 <script>
+import ChatBot from './components/ChatBot.vue';
 import Login from './components/Login.vue'
 import Signup from './components/SignUp.vue'
-
 
 export default {
   name: 'App',
   components: {
     Login,
     Signup,
+    ChatBot
   },
   data() {
     return {
-      sessionInterval: null
+      sessionInterval: null,
+      botData: [],
+      botOptions: [],
+      socket: null,
     };
   },
   computed: {
@@ -38,7 +42,7 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
-    }
+    },
   },
   setup() {
   },
@@ -47,14 +51,14 @@ export default {
 
 
 <template>
-  <div id="app" class="flex w-full h-full m-0 p-0" >
+  <div id="app" class="flex w-full h-full m-0 p-0">
     <!-- style="width: 100vw !important;height: 100% !important; margin: 0 !important; padding: 0 !important;"> -->
     <router-view />
+    <ChatBot v-if="currentUser" />
   </div>
 </template>
 
 <style scoped>
-
 header {
   line-height: 1.5;
 }

@@ -1,17 +1,35 @@
 <template>
-    <div :class="['bot-chat', { 'is-open': isOpen }]">
-        <button @click="toggleChat" class="btn-chat">
-            <!-- Icon or text for the chat button -->
-            Chat
-        </button>
-        <div v-if="isOpen" class="chat-content">
-            <div id="messages">
+    <div :class="['bot-chat', { 'is-open': isOpen }]" class="fixed bottom-4 right-4 w-96">
+        <div v-if="!isOpen" class="grid justify-end">
+            <button @click="toggleChat" class="btn btn-circle btn-outline">
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg> -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 640 512">
+                    <path
+                        d="M320 0c17.7 0 32 14.3 32 32V96H472c39.8 0 72 32.2 72 72V440c0 39.8-32.2 72-72 72H168c-39.8 0-72-32.2-72-72V168c0-39.8 32.2-72 72-72H288V32c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H208zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H304zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H400zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224H64V416H48c-26.5 0-48-21.5-48-48V272c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H576V224h16z" />
+                </svg>
+            </button>
+        </div>
+        <div v-if="isOpen" class="chat-content rounded-md border-2 bg-white">
+            <div class="chat-header grid justify-items-end">
+                <button @click="toggleChat" class="btn btn-circle btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="messages" ref="chatMessages" class=" overflow-auto h-96">
                 <div v-for="message in chatMessages" :key="message.id">
-                    <p><b>{{ message.role === 'user' ? 'You' : 'Assistant' }}:</b> {{ message.content }}</p>
+                    <div v-if="message.role !== 'user'" class="chat chat-start">
+                        <div class="chat-bubble text-star chat-bubble-primary">{{ message.content }}</div>
+                    </div>
+                    <div v-if="message.role === 'user'" class="chat chat-end">
+                        <div class="chat-bubble text-start chat-bubble-success">{{ message.content }}</div>
+                    </div>
                 </div>
             </div>
             <form id="message-form" @submit.prevent="sendMessage">
-                <input v-model="newMessage" id="message-input" type="text" autocomplete="off"
+                <input class="text-black" v-model="newMessage" id="message-input" type="text" autocomplete="off"
                     placeholder="Type a message...">
                 <button type="submit">Send</button>
             </form>
@@ -22,7 +40,6 @@
 <script>
 import io from 'socket.io-client';
 
-
 const API_URL = import.meta.env.VITE_API_ENDPOINT;
 
 export default {
@@ -30,13 +47,37 @@ export default {
         return {
             isOpen: false,
             newMessage: '',
-            chatMessages: [],
+            chatMessages: [
+                {
+                    id: 1,
+                    role: 'assistant',
+                    content: 'Hello, how can I help you?'
+                },
+                {
+                    id: 2,
+                    role: 'user',
+                    content: 'I want to know how to make a pizza'
+                },
+                {
+                    id: 3,
+                    role: 'assistant',
+                    content: 'Here is a recipe for pizza'
+                }
+            ],
             socket: null,
         };
     },
     methods: {
         toggleChat() {
             this.isOpen = !this.isOpen;
+            if (this.isOpen) {
+                this.$nextTick(() => {
+                    const chatMessagesDiv = this.$refs.chatMessages;
+                    if (chatMessagesDiv) {
+                        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+                    }
+                });
+            }
         },
         sendMessage() {
             if (this.newMessage.trim()) {
@@ -45,7 +86,6 @@ export default {
                     if (error) {
                         alert(error);
                     } else {
-                        console.log('Message delivered!');
                         this.newMessage = '';
                     }
                 });
@@ -57,6 +97,13 @@ export default {
                 role,
                 content: message
             });
+            localStorage.setItem('chatMessages', JSON.stringify(this.chatMessages));
+            this.$nextTick(() => {
+                const chatMessagesDiv = this.$refs.chatMessages;
+                if (chatMessagesDiv) {
+                    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+                }
+            });
         }
     },
     mounted() {
@@ -64,10 +111,15 @@ export default {
         this.socket.on('message', (message) => {
             this.displayMessage('assistant', message);
         });
+        if (localStorage.getItem('chatMessages')) {
+            this.chatMessages = JSON.parse(localStorage.getItem('chatMessages'));
+        } else {
+            localStorage.setItem('chatMessages', JSON.stringify(this.chatMessages));
+        }
     }
 };
 </script>
-  
+
 <style scoped>
 body {
     font-family: Arial, sans-serif;
