@@ -1,13 +1,45 @@
-<template>
-    <div class="d-flex" style="width: 80vw;">
-        <!-- First Div - Image -->
-        <div class="container">
-            <div class="content">
-                <img src="../assets/images/login_ratatouille.jpeg" alt="Vue logo" />
-            </div>
-        </div>
+<style>
+    .speech {
+        float: left;
+        border: 1px solid #ccc;
+        border-radius: 10px 0px 0px 10px;
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+        border-right: 0px;
+        align-items: center;
+        display: flex;
+        height: 40px;
+        padding: 0px 10px;
+    }
 
-        <!-- Second Div - Login Form -->
+    .speech img {
+        width: 20px;
+        position: relative;
+        margin: auto;
+    }
+
+    #search .input-lg {
+        height: 42px;
+        line-height: 20px;
+        padding: 0 10px;
+        border-radius: 0px;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+        border-left-width: 0px;
+    }
+
+    .btn {
+        height: 42px;
+        border: 1px solid #ccc;
+        padding: 0px 10px;
+        border-radius: 0px 10px 10px 0px;
+    }
+</style>
+<template>
+    <div class="w-full h-full">
+        <nav class="bg-gray-800 h-20">
+            <!-- Navbar content -->
+            <NavBar />
+        </nav>
         <div class="">
             <h2>Recherche vocal</h2>
             
@@ -15,12 +47,46 @@
                 <button @click="startVoiceRecognition">Commencer la reconnaissance vocale</button>
             </p>
         </div>
+        <main class="flex justify-center w-full h-full items-center bg-image"
+                :style="{ backgroundImage: 'url(' + bgImageUrl + ')' }"
+                style="background-repeat: no-repeat; background-size: cover; background-position: center; height: 100%; width: 100%; opacity: 0.9;">
+                <form>
+<div style="display:inline-flex">
+    <div class="speech">
+        <img onclick="startDictation()"
+            src="https://webocreation.com/wp-content/uploads/2022/02/voice-icons.png" />
+    </div>
+    <div id="search" class="input-group">
+        <input type="text" name="search" value="" placeholder="Search" class="form-control input-lg" />
+    </div>
+    <div class="input-group-btn">
+        <button type="button" class="btn ">GO</button>
+    </div>
+</div>
+</form>
+                <input type="text" placeholder="Type here" class="input input-bordered input-secondary w-full max-w-xs" />
+        </main>
+
+
     </div>
 </template>
 
 <script>
-    import annyang from "annyang";
+
+import NavBar from './NavBar.vue'
+
+import bgImage from '../assets/images/rechercheVoc.jpg';
+    import * as annyang from "annyang";
     export default {
+        name: 'RechVoc',
+    components: {
+        NavBar
+    },
+    data() {
+        return {
+            bgImageUrl: bgImage
+        };
+    },
         methods: {
             startVoiceRecognition() {
                 if (annyang) {
@@ -42,4 +108,27 @@
             }
         }
     };
+
+
+    function startDictation() {
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = 'en-US';
+            recognition.start();
+
+            recognition.onresult = function (e) {
+                document.getElementsByClassName('form-control')[0].value = e.results[0][0].transcript;
+                recognition.stop();
+                document.getElementsByClassName('btn-default')[0].submit();
+            };
+
+            recognition.onerror = function (e) {
+                recognition.stop();
+            };
+        }
+    }
 </script>

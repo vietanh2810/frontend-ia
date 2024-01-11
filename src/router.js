@@ -47,7 +47,7 @@ router.beforeEach((to, from, next) => {
     const loggedIn = localStorage.getItem("user");
     const userRole = loggedIn ? JSON.parse(loggedIn).user.role : null;
 
-    if (authRequired && !loggedIn) {
+    if (authRequired && !!loggedIn) {
         next("/login");
     } else if (to.path === "/admin" && userRole !== "admin") {
         next(from.path);
