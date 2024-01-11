@@ -1,8 +1,14 @@
 <template>
-    <div class="w-full" >
+    <div class="w-full">
         <div class="navbar h-16 bg-base-100 items-center">
-            <div class="flex-1 items-center">
-                <a class="btn btn-ghost text-xl">RemyTheChef</a>
+            <div class="flex-1 items-center align-center">
+                <a class="btn btn-ghost text-xl" @click="toHomePage">RemyTheChef</a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a @click="toSearch">Search</a></li>
+                    <li><a @click="toRecipe">Recipes</a></li>
+                </ul>
             </div>
             <div class="flex-none gap-2 items-center">
                 <div class="dropdown dropdown-end">
@@ -17,11 +23,10 @@
                         <li>
                             <a class="justify-between">
                                 Profile
-                                <span class="badge">New</span>
+                                <!-- <span class="badge">New</span> -->
                             </a>
                         </li>
-                        <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
+                        <li><a @click="logOut">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +37,26 @@
 <script>
 export default {
     name: 'NavBar',
-    // Component logic goes here
+    // Component logic goes here,
+    data() {
+        return {
+        };
+    },
+    methods: {
+        toHomePage() {
+            this.$router.push('/');
+        },
+        logOut() {
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
+        },
+        toSearch() {
+            this.$router.push('/');
+        },
+        toRecipe() {
+            this.$router.push('/recipes');
+        }
+    },
 }
 </script>
 
