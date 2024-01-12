@@ -168,7 +168,7 @@
                         class="carousel-item relative border-white rounded-box border h-10 flex justify-center items-center mr-2">
                         <!-- <img src="https://daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.jpg" class="w-full" /> -->
                         <div class="tooltip tooltip-bottom w-full mx-20" :data-tip="rating.comment">
-                            <p>Rating: {{ rating.rating }}/5</p>
+                            <p>Rating: {{ rating.point }}/5</p>
                         </div>
                     </div>
                 </div>
