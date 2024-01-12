@@ -10,7 +10,8 @@
             </button>
         </div>
         <div v-if="isOpen" class="chat-content rounded-md border-2 bg-white">
-            <div class="chat-header grid justify-items-end">
+            <div class="chat-heade flex justify-between items-center">
+                <p class="text-black ml-4 text-2xl text-bold">RemyBot</p>
                 <button @click="toggleChat" class="btn btn-circle btn-outline">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -29,9 +30,9 @@
                 </div>
             </div>
             <form id="message-form" @submit.prevent="sendMessage">
-                <input class="text-black" v-model="newMessage" id="message-input" type="text" autocomplete="off"
+                <input class="text-black w-full" v-model="newMessage" id="message-input" type="text" autocomplete="off"
                     placeholder="Type a message...">
-                <button type="submit">Send</button>
+                <button class="w-full" style="margin-left: 0; margin-top: 1rem;" type="submit">Send</button>
             </form>
         </div>
     </div>

@@ -16,8 +16,8 @@ class UserService {
         return axios.get(API_URL + '/users/profile', {headers: authHeader()});
     }
 
-    editUser(){
-        return axios.put(API_URL + '/users/edit/', { headers: authHeader()});
+    editUser(data){
+        return axios.put(API_URL + '/users/edit', data,{ headers: authHeader()});
     }
 }
 
