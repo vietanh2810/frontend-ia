@@ -23,9 +23,6 @@
                     <div v-show="isLoading" class="rounded-full ml-4 overflow-hidden" style="width: 60px; height: 60px;">
                         <img src="../assets/images/remy.jpeg" class="rotate" width="60" height="60" />
                     </div>
-                                    
-                    <span v-show="isLoading" class="loading loading-spinner text-error loading-lg"></span>
-
                 </div>
             </div>
         </main>
