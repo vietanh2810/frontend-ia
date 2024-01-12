@@ -32,12 +32,24 @@ class RecipesService {
         return axios.post(API_URL + '/recipes/pairings', data, { headers: authHeader() });
     }
 
+    getCalories(data) {
+        return axios.post(API_URL + '/recipes/calories', data, { headers: authHeader() });
+    }
+
     addToFav(data) {
         return axios.post(API_URL + '/recipes/favorites', data, { headers: authHeader() });
     }
 
     rateRecipe(id, data) {
         return axios.post(API_URL + '/recipes/' + id + '/ratings', data, { headers: authHeader() });
+    }
+
+    getRatings(id) {
+        return axios.get(API_URL + '/recipes/' + id + '/ratings', { headers: authHeader() });
+    }
+
+    getShoppingList(id) {
+        return axios.get(API_URL + '/recipes/' + id + '/shopping-list', { headers: authHeader() });
     }
 }
 

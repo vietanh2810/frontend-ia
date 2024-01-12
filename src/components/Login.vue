@@ -1,9 +1,11 @@
 <template>
-    <div class="d-flex" style="width: 80vw;">
+    <div class="d-flex w-full"
+            :style="{ backgroundImage: 'url(' + bgImageUrl + ')' }"
+                style="background-repeat: no-repeat; background-size: cover; background-position: center; height: 100%; width: 100%; opacity: 0.9;">
         <!-- First Div - Image -->
         <div class="container">
-            <div class="content">
-                <img src="../assets/images/login_ratatouille.jpeg" alt="Vue logo" />
+            <div class="content w-full h-full" >
+                <!-- <img src="../assets/images/login_ratatouille.jpeg" class="object-cover" alt="Vue logo" /> -->
             </div>
         </div>
 
@@ -35,7 +37,7 @@
                     </div>
                 </div>
             </Form>
-            <p class="d-flex mt=1 justify-content-between" style="margin-top: 2rem;">Don't have an account? <a
+            <p class="flex mt=1 justify-between" style="margin-top: 2rem;">Don't have an account? <a
                     href="/signup">Sign Up</a></p>
         </div>
     </div>
@@ -44,6 +46,7 @@
 <script>
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
+import bgImage from '../assets/images/bg-login.jpeg';
 const apiEndpoint = import.meta.env.VUE_APP_API_ENDPOINT;
 
 export default {
@@ -65,6 +68,7 @@ export default {
             schema,
             email: "",
             password: "",
+            bgImageUrl: bgImage,
         };
     },
     computed: {

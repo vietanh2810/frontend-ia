@@ -14,7 +14,9 @@
                     <RecipeCard :recipe="recipe" />
                 </div>
             </div>
-            <span v-show="isLoading" class="loading loading-spinner text-error loading-lg"></span>
+            <div v-show="isLoading" class="rounded-full ml-4 overflow-hidden" style="width: 60px; height: 60px;">
+                <img src="../assets/images/remy.jpeg" class="rotate" width="60" height="60" />
+            </div>
         </main>
     </div>
 </template>
@@ -97,4 +99,20 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.rotate {
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
+</style>
 
